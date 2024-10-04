@@ -1,47 +1,53 @@
 package config
 
 import (
-	"fmt"
-	"github.com/spf13/viper"
-	"log"
+	"flag"
+	"github.com/ilyakaznacheev/cleanenv"
+	"os"
 )
 
-var config Configuration
+var config *Config
 
-func Get() Configuration {
+const defaultConfigPath = "config/config.yaml"
+
+type Config struct {
+	Env string `yaml:"env" env-default:"local"`
+}
+
+func GetConfig() *Config {
 	return config
 }
 
-type Configuration struct {
+func MustLoad() *Config {
+	return MustLoadPath(defaultConfigPath)
 }
 
-func MustReadConfig() {
-	viper.SetConfigName("config")
-	viper.SetConfigType("yaml")
-	viper.AddConfigPath("config/")
-	err := viper.ReadInConfig()
-	if err != nil {
-		panic(fmt.Errorf("fatal error config file: %w", err))
+func MustLoadPath(configPath string) *Config {
+	// check if file exists
+	if _, err := os.Stat(configPath); os.IsNotExist(err) {
+		panic("config file does not exist: " + configPath)
 	}
 
-	v := viper.NewWithOptions(viper.KeyDelimiter("::"))
-	v.AddConfigPath(params.Path.DirectoryPath)
-	v.SetConfigName(params.Path.Name)
-	v.SetConfigType(params.Path.Extension)
-
-	if err := v.ReadInConfig(); err != nil {
-		return err
+	config = &Config{}
+	if err := cleanenv.ReadConfig(configPath, config); err != nil {
+		panic("cannot read config: " + err.Error())
 	}
 
-	if err := v.Unmarshal(&config); err != nil {
-		log.Fatalf("unable to decode into struct, %v", err)
-		return err
+	return config
+}
+
+// fetchConfigPath fetches config path from command line flag or environment variable.
+// Priority: flag > env > default.
+// Default value is empty string.
+func fetchConfigPath() string {
+	var res string
+
+	flag.StringVar(&res, "config", "", "path to config file")
+	flag.Parse()
+
+	if res == "" {
+		res = os.Getenv("CONFIG_PATH")
 	}
 
-	if err = validator.New().Struct(tmp); err != nil {
-		return err
-	}
-
-	c = &tmp
-
+	return res
 }
