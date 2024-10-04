@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"os"
 	"os/signal"
 	"syscall"
@@ -16,7 +17,12 @@ func main() {
 	logger.SetupLogger(cfg.Env)
 	logger.Log.Info("Starting SSO Service")
 
-	application := app.New()
+	application, err := app.New(context.Background())
+	if err != nil {
+		logger.Log.Error("error, could not start Application", "error", err.Error())
+		return
+	}
+
 	go func() {
 		application.MustRun()
 	}()
@@ -27,6 +33,6 @@ func main() {
 
 	<-stop
 
-	application.MustStop()
+	application.Stop()
 	logger.Log.Info("Gracefully stopped SSO")
 }

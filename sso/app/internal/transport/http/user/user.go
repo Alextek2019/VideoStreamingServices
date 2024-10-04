@@ -9,16 +9,16 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type UserHandler struct {
-	service user.UserService
+type Handler struct {
+	userService *user.UserService
 }
 
-func NewUserHandler() UserHandler {
+func NewUserHandler(userService *user.UserService) Handler {
 
-	return UserHandler{}
+	return Handler{userService: userService}
 }
 
-func (u *UserHandler) RegisterUser() fiber.Handler {
+func (u *Handler) RegisterUser() fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var params RegisterUserRequest
 		if err := reqvalidator.ReadRequest(c, &params); err != nil {
@@ -34,14 +34,14 @@ func (u *UserHandler) RegisterUser() fiber.Handler {
 	}
 }
 
-func (u *UserHandler) GetUser() fiber.Handler {
+func (u *Handler) GetUser() fiber.Handler {
 	return func(c *fiber.Ctx) error {
 
 		return c.Status(fiber.StatusOK).JSON(nil)
 	}
 }
 
-func (u *UserHandler) UpdateUser() fiber.Handler {
+func (u *Handler) UpdateUser() fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var params RegisterUserRequest
 		if err := reqvalidator.ReadRequest(c, &params); err != nil {
@@ -57,7 +57,7 @@ func (u *UserHandler) UpdateUser() fiber.Handler {
 	}
 }
 
-func (u *UserHandler) DeleteUser() fiber.Handler {
+func (u *Handler) DeleteUser() fiber.Handler {
 	return func(c *fiber.Ctx) error {
 
 		return c.Status(fiber.StatusOK).JSON(nil)
