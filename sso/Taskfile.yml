@@ -8,3 +8,6 @@ tasks:
   tidy:
     cmds:
       - cd app && go mod tidy
+  migup:
+    cmds:
+      - cd app && go run cmd/migration/main.go --action up
