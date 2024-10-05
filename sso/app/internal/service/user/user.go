@@ -1,9 +1,11 @@
 package user
 
+import "context"
+
 type UserService struct {
 }
 
-func NewUserService() *UserService {
+func New(ctx context.Context) *UserService {
 	return &UserService{}
 }
 

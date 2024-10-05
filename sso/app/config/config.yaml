@@ -1,1 +1,9 @@
 "env": "local"
+"Service":
+  "Name": "SSO"
+  "Host": "127.0.0.1"
+  "Port": "8000"
+  "AllowedHost": "127.0.0.1"
+  "AllowedPort": "8000"
+"Metrics":
+  "Port": "9000"

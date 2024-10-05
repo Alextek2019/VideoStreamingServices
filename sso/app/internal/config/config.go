@@ -11,10 +11,25 @@ var config *Config
 const defaultConfigPath = "config/config.yaml"
 
 type Config struct {
-	Env string `yaml:"env" env-default:"local"`
+	Env     string  `yaml:"Env" env-default:"local"`
+	Service Service `yaml:"Service"`
+	Metrics Metrics `yaml:"Metrics"`
 }
 
-func GetConfig() *Config {
+type Service struct {
+	Name string `yaml:"Name"`
+	Host string `yaml:"Host"`
+	Port string `yaml:"Port"`
+
+	AllowedHost string `yaml:"AllowedHost"`
+	AllowedPort string `yaml:"AllowedPort"`
+}
+
+type Metrics struct {
+	Port string `yaml:"Port"`
+}
+
+func Get() *Config {
 	return config
 }
 

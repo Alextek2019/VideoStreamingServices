@@ -2,6 +2,7 @@ package user
 
 import (
 	"vss/sso/internal/service/user"
+	"vss/sso/internal/transport/http"
 	"vss/sso/pkg/errors"
 	logger "vss/sso/pkg/logger/handlers/slogpretty"
 	"vss/sso/pkg/reqvalidator"
@@ -13,9 +14,8 @@ type Handler struct {
 	userService *user.UserService
 }
 
-func NewUserHandler(userService *user.UserService) Handler {
-
-	return Handler{userService: userService}
+func NewUserHandler(userService *user.UserService) http.UserHandler {
+	return &Handler{userService: userService}
 }
 
 func (u *Handler) RegisterUser() fiber.Handler {
