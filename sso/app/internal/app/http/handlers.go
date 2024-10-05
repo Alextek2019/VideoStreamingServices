@@ -16,7 +16,7 @@ import (
 )
 
 type Services struct {
-	UserService *userService.UserService
+	UserService *userService.Service
 }
 
 func (s *Server) MapHandlers(ctx context.Context, services Services) error {
@@ -42,7 +42,6 @@ func (s *Server) MapHandlers(ctx context.Context, services Services) error {
 }
 
 func (s *Server) mapMetrics() {
-	// metrics
 	metricsApp := fiber.New(fiber.Config{DisableStartupMessage: true})
 	prometheus := fiberprometheus.New(config.Get().Service.Name)
 	prometheus.RegisterAt(metricsApp, "/metrics")

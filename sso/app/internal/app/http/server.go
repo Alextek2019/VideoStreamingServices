@@ -23,16 +23,25 @@ func NewServer(ctx context.Context) (*Server, error) {
 		fiber: fiber.New(fiber.Config{DisableStartupMessage: true, EnableSplittingOnParsers: true}),
 	}
 
-	handlers := Services{
-		UserService: userService.New(ctx),
-	}
-
-	err := srv.MapHandlers(ctx, handlers)
+	userSvc, err := userService.New(ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "app.http.NewServer could not map handlers")
+		return nil, errors.Wrapf(err,
+			"app.http.NewServer %s",
+			"could not create user service")
 	}
 
-	return &Server{}, nil
+	handlers := Services{
+		UserService: userSvc,
+	}
+
+	err = srv.MapHandlers(ctx, handlers)
+	if err != nil {
+		return nil, errors.Wrapf(err,
+			"app.http.NewServer %s",
+			"could not map handlers")
+	}
+
+	return &srv, nil
 }
 
 func (s *Server) MustRun() {

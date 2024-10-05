@@ -13,7 +13,9 @@ type App struct {
 func New(ctx context.Context) (*App, error) {
 	httpServer, err := http.NewServer(ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "could not start http server")
+		return nil, errors.Wrapf(err,
+			"app.New %s",
+			"could not start http server")
 	}
 
 	return &App{

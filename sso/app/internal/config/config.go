@@ -4,6 +4,7 @@ import (
 	"flag"
 	"github.com/ilyakaznacheev/cleanenv"
 	"os"
+	pgconnector "vss/sso/pkg/connectors/pg_connector"
 )
 
 var config *Config
@@ -11,9 +12,10 @@ var config *Config
 const defaultConfigPath = "config/config.yaml"
 
 type Config struct {
-	Env     string  `yaml:"Env" env-default:"local"`
-	Service Service `yaml:"Service"`
-	Metrics Metrics `yaml:"Metrics"`
+	Env      string               `yaml:"Env" env-default:"local"`
+	Service  Service              `yaml:"Service"`
+	Metrics  Metrics              `yaml:"Metrics"`
+	Postgres pgconnector.Postgres `yaml:"Postgres"`
 }
 
 type Service struct {

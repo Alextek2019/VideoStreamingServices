@@ -7,3 +7,15 @@
   "AllowedPort": "8000"
 "Metrics":
   "Port": "9000"
+Postgres:
+  Host: "localhost"
+  Port: "5432"
+  DBName: "postgres"
+  User: "postgres"
+  Password: "postgres"
+  SSLMode: "require"
+  PGDriver: "pgx"
+  MaxOpenConns: 60
+  ConnMaxLifetime: 120s
+  MaxIdleConns: 30
+  ConnMaxIdleTime: 20s

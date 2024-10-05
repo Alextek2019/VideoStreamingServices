@@ -19,7 +19,7 @@ func main() {
 
 	application, err := app.New(context.Background())
 	if err != nil {
-		logger.Log.Error("error, could not start Application", "error", err.Error())
+		logger.Log.With("error", err.Error()).Error("could not start Application")
 		return
 	}
 
