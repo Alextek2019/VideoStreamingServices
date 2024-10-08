@@ -13,7 +13,7 @@ Postgres:
   DBName: "postgres"
   User: "postgres"
   Password: "postgres"
-  SSLMode: "require"
+  SSLMode: "disable"
   PGDriver: "pgx"
   MaxOpenConns: 60
   ConnMaxLifetime: 120s

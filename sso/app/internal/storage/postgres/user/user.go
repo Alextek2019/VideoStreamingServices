@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"vss/sso/internal/config"
 	logger "vss/sso/pkg/logger/handlers/slogpretty"
@@ -29,9 +30,9 @@ func New(ctx context.Context) (*PGRepo, error) {
 	}, nil
 }
 
-func (u *PGRepo) CreateUser(ctx context.Context, args postgres.CreateUser) (int, error) {
+func (u *PGRepo) CreateUser(ctx context.Context, args postgres.CreateUser) (uuid.UUID, error) {
 
-	return 0, nil
+	return uuid.UUID{}, nil
 }
 
 func (u *PGRepo) GetUser(ctx context.Context, uuid string) (postgres.User, error) {

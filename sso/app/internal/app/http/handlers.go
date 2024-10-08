@@ -48,7 +48,6 @@ func (s *Server) mapMetrics() {
 
 	s.fiber.Use(prometheus.Middleware)
 	go func() {
-		logger.Log.With("metrics", config.Get().Metrics).Info("metrics server started")
 		if err := metricsApp.Listen(fmt.Sprintf(":%s", config.Get().Metrics.Port)); err != nil {
 			logger.Log.Error(err.Error())
 		}

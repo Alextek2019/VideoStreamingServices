@@ -1,9 +1,12 @@
 package postgres
 
-import "context"
+import (
+	"context"
+	"github.com/google/uuid"
+)
 
 type UserRepo interface {
-	CreateUser(context.Context, CreateUser) (int, error)
+	CreateUser(context.Context, CreateUser) (uuid.UUID, error)
 	GetUser(context.Context, string) (User, error)
 	UpdateUser(context.Context, UpdateUser) error
 	DeleteUser(context.Context, string) error

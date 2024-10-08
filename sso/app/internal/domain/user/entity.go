@@ -6,16 +6,16 @@ import (
 )
 
 type RegisterUser struct {
-	login    string
-	password string
+	Login    string `json:"login"`
+	Password string `json:"password"`
 }
 
 func (r *RegisterUser) Validate() bool {
 	loginRegexp := regexp.MustCompile(`^[a-zA-Z0-9]{5,10}$`)
 	passwordRegexp := regexp.MustCompile(`^[a-zA-Z0-9]{5,10}$`)
 
-	return loginRegexp.MatchString(r.login) &&
-		passwordRegexp.MatchString(r.password)
+	return loginRegexp.MatchString(r.Login) &&
+		passwordRegexp.MatchString(r.Password)
 }
 
 type User struct {
