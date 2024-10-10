@@ -9,8 +9,8 @@ import (
 	reflect "reflect"
 	user "vss/sso/internal/domain/user"
 
+	uuid "github.com/gofrs/uuid"
 	gomock "github.com/golang/mock/gomock"
-	uuid "github.com/google/uuid"
 )
 
 // MockUser is a mock of User interface.

@@ -32,6 +32,16 @@ func New(ctx context.Context) (*PGRepo, error) {
 
 func (u *PGRepo) CreateUser(ctx context.Context, args storage.CreateUser) (uuid.UUID, error) {
 
+	_, err := u.db.ExecContext(
+		ctx,
+		queryCreateUser,
+		args.Login,
+		args.HashedPassword,
+	)
+	if err != nil {
+		return uuid.UUID{}, errors.Wrapf(err, "cannot create user")
+	}
+
 	return uuid.UUID{}, nil
 }
 

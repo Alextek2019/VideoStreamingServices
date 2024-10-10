@@ -9,8 +9,8 @@ import (
 	reflect "reflect"
 	storage "vss/sso/internal/storage"
 
+	uuid "github.com/gofrs/uuid"
 	gomock "github.com/golang/mock/gomock"
-	uuid "github.com/google/uuid"
 )
 
 // MockUserRepo is a mock of UserRepo interface.
