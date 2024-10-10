@@ -1,16 +1,16 @@
 package user
 
 import (
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid"
 	"regexp"
 )
 
-type RegisterUser struct {
+type RegisterUserArgs struct {
 	Login    string `json:"login"`
 	Password string `json:"password"`
 }
 
-func (r *RegisterUser) Validate() bool {
+func (r *RegisterUserArgs) Validate() bool {
 	loginRegexp := regexp.MustCompile(`^[a-zA-Z0-9]{5,10}$`)
 	passwordRegexp := regexp.MustCompile(`^[a-zA-Z0-9]{5,10}$`)
 
@@ -19,5 +19,12 @@ func (r *RegisterUser) Validate() bool {
 }
 
 type User struct {
-	ID uuid.UUID
+	UserID uuid.UUID `json:"userID"`
+	Login  string    `json:"login"`
+}
+
+type UpdateUserArgs struct {
+	UserID   uuid.UUID `json:"userID"`
+	Login    *string   `json:"login"`
+	Password *string   `json:"password"`
 }

@@ -11,3 +11,9 @@ tasks:
   migup:
     cmds:
       - cd app && go run cmd/migration/main.go --action up
+  mock:
+    desc: "mock all interfaces"
+    cmds:
+      - cd app && mockgen -source=internal/storage/user.go -destination=internal/storage/mocks/mock_storage.go -package=mocks
+      - cd app && mockgen -source=internal/service/user.go -destination=internal/service/mocks/mock_user.go -package=mocks
+      - cd app && mockgen -source=internal/service/auth.go -destination=internal/service/mocks/mock_auth.go -package=mocks

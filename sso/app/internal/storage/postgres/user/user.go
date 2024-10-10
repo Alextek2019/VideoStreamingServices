@@ -2,12 +2,12 @@ package user
 
 import (
 	"context"
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid"
 	"github.com/pkg/errors"
 	"vss/sso/internal/config"
+	"vss/sso/internal/storage"
 	logger "vss/sso/pkg/logger/handlers/slogpretty"
 
-	"vss/sso/internal/storage/postgres"
 	pgconnector "vss/sso/pkg/connectors/pg_connector"
 
 	"github.com/jmoiron/sqlx"
@@ -30,17 +30,17 @@ func New(ctx context.Context) (*PGRepo, error) {
 	}, nil
 }
 
-func (u *PGRepo) CreateUser(ctx context.Context, args postgres.CreateUser) (uuid.UUID, error) {
+func (u *PGRepo) CreateUser(ctx context.Context, args storage.CreateUser) (uuid.UUID, error) {
 
 	return uuid.UUID{}, nil
 }
 
-func (u *PGRepo) GetUser(ctx context.Context, uuid string) (postgres.User, error) {
+func (u *PGRepo) GetUser(ctx context.Context, uuid string) (storage.User, error) {
 
-	return postgres.User{}, nil
+	return storage.User{}, nil
 }
 
-func (u *PGRepo) UpdateUser(ctx context.Context, args postgres.UpdateUser) error {
+func (u *PGRepo) UpdateUser(ctx context.Context, args storage.UpdateUser) error {
 
 	return nil
 }

@@ -34,7 +34,7 @@ func NewServer(ctx context.Context) (*Server, error) {
 		UserService: userSvc,
 	}
 
-	err = srv.MapHandlers(ctx, handlers)
+	err = srv.MapHandlers(handlers)
 	if err != nil {
 		return nil, errors.Wrapf(err,
 			"app.http.NewServer %s",

@@ -1,14 +1,13 @@
 package http
 
 import (
-	"context"
 	"fmt"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"vss/sso/internal/transport/http/middleware"
 	"vss/sso/internal/transport/http/user"
 
 	"vss/sso/internal/config"
-	userService "vss/sso/internal/service/user"
+	"vss/sso/internal/service"
 	logger "vss/sso/pkg/logger/handlers/slogpretty"
 
 	"github.com/ansrivas/fiberprometheus/v2"
@@ -16,10 +15,10 @@ import (
 )
 
 type Services struct {
-	UserService *userService.Service
+	UserService service.User
 }
 
-func (s *Server) MapHandlers(ctx context.Context, services Services) error {
+func (s *Server) MapHandlers(services Services) error {
 	s.mapMetrics()
 
 	s.fiber.Use(cors.New(cors.Config{

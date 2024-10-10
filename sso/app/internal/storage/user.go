@@ -1,8 +1,8 @@
-package postgres
+package storage
 
 import (
 	"context"
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid"
 )
 
 type UserRepo interface {
