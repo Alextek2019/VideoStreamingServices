@@ -7,8 +7,8 @@ import (
 )
 
 func MapUserRoutes(userRoutes fiber.Router, h http.UserHandler, mw *middleware.MDWManager) {
-	userRoutes.Post("/register", mw.UnAuthedMiddleware(), h.RegisterUser())
-	userRoutes.Get("/get", mw.UnAuthedMiddleware(), h.RegisterUser())
-	userRoutes.Patch("/update", mw.UnAuthedMiddleware(), h.RegisterUser())
-	userRoutes.Delete("/delete", mw.UnAuthedMiddleware(), h.RegisterUser())
+	userRoutes.Post("/", mw.UnAuthedMiddleware(), h.RegisterUser())
+	userRoutes.Get("/", mw.UnAuthedMiddleware(), h.RegisterUser())
+	userRoutes.Patch("/", mw.UnAuthedMiddleware(), h.RegisterUser())
+	userRoutes.Delete("/", mw.UnAuthedMiddleware(), h.RegisterUser())
 }

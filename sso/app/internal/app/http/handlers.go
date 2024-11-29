@@ -22,7 +22,7 @@ func (s *Server) MapHandlers(services Services) error {
 	s.mapMetrics()
 
 	s.fiber.Use(cors.New(cors.Config{
-		AllowOrigins:     "http://localhost:5000",
+		AllowOrigins:     fmt.Sprintf("%s:%s", config.Get().Service.AllowedHost, config.Get().Service.AllowedPort),
 		AllowHeaders:     "Accept,Accept-Language,Content-Language,Content-Type,fingerprint,User-Agent",
 		AllowCredentials: true,
 	}))

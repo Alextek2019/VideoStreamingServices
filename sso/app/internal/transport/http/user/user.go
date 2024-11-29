@@ -24,11 +24,7 @@ func (u *Handler) RegisterUser() fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var params domain.RegisterUserArgs
 		if err := reqvalidator.ReadRequest(c, &params); err != nil {
-			logger.Log.Error(
-				"User.Transport.http.RegisterUserArgs",
-				err,
-				errors.ErrBodyParsing.GetErrConst(),
-			)
+			logger.Log.With("error:", errors.ErrBodyParsing).Error("User.Transport.http.RegisterUserArgs")
 			return errors.ErrBodyParsing.ToFiberError(c)
 		}
 

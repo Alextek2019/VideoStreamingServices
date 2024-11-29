@@ -11,8 +11,8 @@ type RegisterUserArgs struct {
 }
 
 func (r *RegisterUserArgs) Validate() bool {
-	loginRegexp := regexp.MustCompile(`^[a-zA-Z0-9]{5,10}$`)
-	passwordRegexp := regexp.MustCompile(`^[a-zA-Z0-9]{5,10}$`)
+	loginRegexp := regexp.MustCompile(`^[a-zA-Z0-9\W_]{5,50}$`)
+	passwordRegexp := regexp.MustCompile(`^[a-zA-Z0-9\W_]{8,50}$`)
 
 	return loginRegexp.MatchString(r.Login) &&
 		passwordRegexp.MatchString(r.Password)
