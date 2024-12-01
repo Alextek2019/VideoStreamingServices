@@ -47,15 +47,12 @@ func (u *Service) Register(ctx context.Context, args domain.RegisterUserArgs) (d
 }
 
 func (u *Service) Get(ctx context.Context, userID uuid.UUID) (domain.User, error) {
-	userEntity, err := u.repo.GetUser(ctx, userID.String())
+	response, err := u.repo.GetUser(ctx, userID.String())
 	if err != nil {
-		return domain.User{}, errors.Wrapf(err, "could not find user with uuid: %s", userID.String())
+		return domain.User{}, err
 	}
 
-	return domain.User{
-		UserID: userID,
-		Login:  userEntity.Login,
-	}, nil
+	return UserDTO(response), nil
 }
 
 func (u *Service) Update(ctx context.Context, args domain.UpdateUserArgs) error {
