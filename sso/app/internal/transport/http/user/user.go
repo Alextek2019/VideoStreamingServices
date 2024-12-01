@@ -6,7 +6,6 @@ import (
 	"vss/sso/internal/service"
 	"vss/sso/internal/transport/http"
 	"vss/sso/pkg/errors"
-	logger "vss/sso/pkg/logger/handlers/slogpretty"
 	"vss/sso/pkg/reqvalidator"
 
 	"github.com/gofiber/fiber/v2"
@@ -24,17 +23,11 @@ func (u *Handler) RegisterUser() fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var params domain.RegisterUserArgs
 		if err := reqvalidator.ReadRequest(c, &params); err != nil {
-			logger.Log.With("error:", errors.ErrBodyParsing).Error("User.Transport.http.RegisterUserArgs")
 			return errors.ErrBodyParsing.ToFiberError(c)
 		}
 
 		err := u.userService.Register(c.Context(), params)
 		if err != nil {
-			logger.Log.Error(
-				"User.Transport.http.RegisterUserArgs",
-				err,
-				errors.ErrBodyParsing.GetErrConst(),
-			)
 			return c.Status(fiber.StatusInternalServerError).JSON(err)
 		}
 
@@ -47,21 +40,11 @@ func (u *Handler) GetUser() fiber.Handler {
 		userID := c.Query("userID")
 		userUUID, err := uuid.FromString(userID)
 		if err != nil {
-			logger.Log.Error(
-				"User.Transport.http.GetUser",
-				err,
-				errors.ErrUserID.GetErrConst(),
-			)
 			return errors.ErrUserID.ToFiberError(c)
 		}
 
 		userEntity, err := u.userService.Get(c.Context(), userUUID)
 		if err != nil {
-			logger.Log.Error(
-				"User.Transport.http.GetUser",
-				err,
-				errors.ErrUserNotFound.GetErrConst(),
-			)
 			return errors.ErrUserNotFound.ToFiberError(c)
 		}
 

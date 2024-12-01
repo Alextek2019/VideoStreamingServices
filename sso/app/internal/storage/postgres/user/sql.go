@@ -2,8 +2,7 @@ package user
 
 const (
 	queryCreateUser = `
-		insert into users.user(logun, hashed_password, )
-			values ()
+		insert into users.user(login, password) values ($1, $2);
 `
 
 	queryUpdateUser = ``

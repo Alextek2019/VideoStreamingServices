@@ -16,10 +16,11 @@ func main() {
 
 	logger.SetupLogger(cfg.Env)
 	logger.Log.Info("Starting SSO Service")
+	logger.Log.Infof("Server name %s", cfg.Service.Name)
 
 	application, err := app.New(context.Background())
 	if err != nil {
-		logger.Log.With("error", err.Error()).Error("could not start Application")
+		logger.Log.Errorf("could not start Application, err: %s", err)
 		return
 	}
 

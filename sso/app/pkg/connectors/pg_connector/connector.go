@@ -11,8 +11,8 @@ import (
 )
 
 type Log interface {
-	Info(string, ...any)
-	Error(string, ...any)
+	Info(string)
+	Error(string)
 }
 
 func Connect(ctx context.Context, cfg Postgres, log Log) (*sqlx.DB, error) {

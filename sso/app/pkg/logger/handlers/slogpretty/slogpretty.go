@@ -11,13 +11,17 @@ import (
 	"github.com/fatih/color"
 )
 
-var Log *slog.Logger
+var Log *PrettyLogger
 
 const (
 	envLocal = "local"
 	envDev   = "dev"
 	envProd  = "prod"
 )
+
+type PrettyLogger struct {
+	sl *slog.Logger
+}
 
 type PrettyHandlerOptions struct {
 	SlogOpts *slog.HandlerOptions
@@ -107,22 +111,32 @@ func (h *PrettyHandler) WithGroup(name string) slog.Handler {
 }
 
 func SetupLogger(env string) {
-	var log *slog.Logger
+	var opts PrettyHandlerOptions
 
 	switch env {
 	case envLocal:
-		log = setupPrettySlog()
+		opts = PrettyHandlerOptions{
+			SlogOpts: &slog.HandlerOptions{
+				Level: slog.LevelDebug,
+			},
+		}
 	case envDev:
-		log = slog.New(
-			slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}),
-		)
+		opts = PrettyHandlerOptions{
+			SlogOpts: &slog.HandlerOptions{
+				Level: slog.LevelDebug,
+			},
+		}
 	case envProd:
-		log = slog.New(
-			slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo}),
-		)
+		opts = PrettyHandlerOptions{
+			SlogOpts: &slog.HandlerOptions{
+				Level: slog.LevelInfo,
+			},
+		}
 	}
 
-	Log = log
+	handler := opts.NewPrettyHandler(os.Stdout)
+	Log = &PrettyLogger{}
+	Log.sl = slog.New(handler)
 }
 
 func setupPrettySlog() *slog.Logger {
