@@ -7,7 +7,9 @@ const (
 		  login 		AS login;
 `
 
-	queryUpdateUser = ``
+	queryUpdateUser = `
+
+`
 
 	queryGetUser = `
 		SELECT login as login,
@@ -17,5 +19,8 @@ const (
 			id = $1::uuid;
 `
 
-	queryDeleteUser = ``
+	queryDeleteUser = `
+		DELETE FROM users.user
+		WHERE id = $1::uuid;
+`
 )

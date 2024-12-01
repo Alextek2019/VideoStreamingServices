@@ -56,10 +56,11 @@ func (u *Handler) GetUser() fiber.Handler {
 	}
 }
 
+// TODO: implement
 func (u *Handler) UpdateUser() fiber.Handler {
 	return func(c *fiber.Ctx) error {
 
-		return c.Status(fiber.StatusOK).JSON(nil)
+		return c.Status(fiber.StatusInternalServerError).JSON(map[string]string{"error": "unimplemented handler"})
 	}
 }
 
