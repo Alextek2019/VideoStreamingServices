@@ -2,7 +2,6 @@ package user
 
 import (
 	"context"
-	"github.com/gofrs/uuid"
 	"github.com/pkg/errors"
 	"vss/sso/internal/config"
 	"vss/sso/internal/storage"
@@ -30,19 +29,20 @@ func New(ctx context.Context) (*PGRepo, error) {
 	}, nil
 }
 
-func (u *PGRepo) CreateUser(ctx context.Context, args storage.CreateUser) (uuid.UUID, error) {
-
-	_, err := u.db.ExecContext(
+func (u *PGRepo) CreateUser(ctx context.Context, args storage.CreateUser) (storage.User, error) {
+	var user storage.User
+	err := u.db.GetContext(
 		ctx,
+		&user,
 		queryCreateUser,
 		args.Login,
 		args.HashedPassword,
 	)
 	if err != nil {
-		return uuid.UUID{}, errors.Wrapf(err, "cannot create user")
+		return user, errors.Wrapf(err, "cannot create user")
 	}
 
-	return uuid.UUID{}, nil
+	return user, nil
 }
 
 func (u *PGRepo) GetUser(ctx context.Context, uuid string) (storage.User, error) {

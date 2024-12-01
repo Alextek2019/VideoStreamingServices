@@ -6,6 +6,7 @@ import (
 	"vss/sso/internal/service"
 	"vss/sso/internal/transport/http"
 	"vss/sso/pkg/errors"
+	logger "vss/sso/pkg/logger/handlers/slogpretty"
 	"vss/sso/pkg/reqvalidator"
 
 	"github.com/gofiber/fiber/v2"
@@ -23,15 +24,17 @@ func (u *Handler) RegisterUser() fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var params domain.RegisterUserArgs
 		if err := reqvalidator.ReadRequest(c, &params); err != nil {
+			logger.Log.Errorf("failed to validate params: %v", err)
 			return errors.ErrBodyParsing.ToFiberError(c)
 		}
 
-		err := u.userService.Register(c.Context(), params)
+		usr, err := u.userService.Register(c.Context(), params)
 		if err != nil {
+			logger.Log.Errorf("failed to register user: %v", err)
 			return c.Status(fiber.StatusInternalServerError).JSON(err)
 		}
 
-		return c.Status(fiber.StatusOK).JSON(nil)
+		return c.Status(fiber.StatusOK).JSON(usr)
 	}
 }
 
@@ -40,6 +43,7 @@ func (u *Handler) GetUser() fiber.Handler {
 		userID := c.Query("userID")
 		userUUID, err := uuid.FromString(userID)
 		if err != nil {
+			logger.Log.Errorf("failed to validate params: %v", err)
 			return errors.ErrUserID.ToFiberError(c)
 		}
 

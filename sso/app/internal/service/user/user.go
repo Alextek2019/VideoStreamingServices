@@ -31,19 +31,19 @@ func New(ctx context.Context) (service.User, error) {
 	}, nil
 }
 
-func (u *Service) Register(ctx context.Context, args domain.RegisterUserArgs) error {
+func (u *Service) Register(ctx context.Context, args domain.RegisterUserArgs) (domain.User, error) {
 	if !args.Validate() {
-		return fmt.Errorf("invalid login or password")
+		return domain.User{}, fmt.Errorf("invalid login or password")
 	}
 
-	_, err := u.repo.CreateUser(ctx, storage.CreateUserDTO(args))
+	response, err := u.repo.CreateUser(ctx, storage.CreateUserDTO(args))
 	if err != nil {
-		return errors.Wrapf(err,
+		return domain.User{}, errors.Wrapf(err,
 			"Service.User.RegisterUserArgs %s",
 			"could not create user in database")
 	}
 
-	return nil
+	return UserDTO(response), nil
 }
 
 func (u *Service) Get(ctx context.Context, userID uuid.UUID) (domain.User, error) {

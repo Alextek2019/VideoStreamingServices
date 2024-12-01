@@ -2,7 +2,9 @@ package user
 
 const (
 	queryCreateUser = `
-		insert into users.user(login, password) values ($1, $2);
+		INSERT INTO users.user(login, password) VALUES ($1, $2)
+		RETURNING id    AS id,
+		  login 		AS login;
 `
 
 	queryUpdateUser = ``
