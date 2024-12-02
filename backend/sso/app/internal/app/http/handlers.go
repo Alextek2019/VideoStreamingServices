@@ -22,9 +22,9 @@ func (s *Server) MapHandlers(services Services) error {
 	s.mapMetrics()
 
 	s.fiber.Use(cors.New(cors.Config{
-		AllowOrigins:     fmt.Sprintf("%s:%s", config.Get().Service.AllowedHost, config.Get().Service.AllowedPort),
+		AllowOrigins:     "*", //     fmt.Sprintf("%s:%s", config.Get().Service.AllowedHost, config.Get().Service.AllowedPort),
 		AllowHeaders:     "Accept,Accept-Language,Content-Language,Content-Type,fingerprint,User-Agent",
-		AllowCredentials: true,
+		AllowCredentials: false,
 	}))
 
 	s.userHandler = user.NewUserHandler(services.UserService)

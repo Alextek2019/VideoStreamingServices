@@ -24,7 +24,7 @@ func (u *Handler) RegisterUser() fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		var params domain.RegisterUserArgs
 		if err := reqvalidator.ReadRequest(c, &params); err != nil {
-			logger.Log.Errorf("failed to validate params: %v", err)
+			logger.Log.Errorf("failed to validate body params: %v", err)
 			return errors.ErrBodyParsing.ToFiberError(c)
 		}
 
