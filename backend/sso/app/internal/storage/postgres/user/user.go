@@ -2,7 +2,6 @@ package user
 
 import (
 	"context"
-	"database/sql"
 	"github.com/pkg/errors"
 	"vss/sso/internal/config"
 	"vss/sso/internal/storage"
@@ -46,31 +45,7 @@ func (u *PGRepo) CreateUser(ctx context.Context, args storage.CreateUser) (stora
 	return user, nil
 }
 
-func (u *PGRepo) GetUser(ctx context.Context, uuid string) (storage.User, error) {
-	var user storage.User
-	err := u.db.GetContext(
-		ctx,
-		&user,
-		queryGetUser,
-		uuid,
-	)
-	if err != nil {
-		if errors.As(err, &sql.ErrNoRows) {
-			return user, errors.Errorf("user with id: %s not found", uuid)
-		}
-
-		return user, errors.Wrapf(err, "cannot get user")
-	}
-
-	return user, nil
-}
-
 func (u *PGRepo) UpdateUser(ctx context.Context, args storage.UpdateUser) error {
-
-	return nil
-}
-
-func (u *PGRepo) DeleteUser(ctx context.Context, uuid string) error {
 
 	return nil
 }

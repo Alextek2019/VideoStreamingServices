@@ -9,7 +9,6 @@ import (
 	reflect "reflect"
 	user "vss/sso/internal/domain/user"
 
-	uuid "github.com/gofrs/uuid"
 	gomock "github.com/golang/mock/gomock"
 )
 
@@ -36,41 +35,13 @@ func (m *MockUser) EXPECT() *MockUserMockRecorder {
 	return m.recorder
 }
 
-// Delete mocks base method.
-func (m *MockUser) Delete(arg0 context.Context, arg1 uuid.UUID) error {
+// Register mocks base method.
+func (m *MockUser) Register(arg0 context.Context, arg1 user.RegisterUserArgs) (user.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Delete", arg0, arg1)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// Delete indicates an expected call of Delete.
-func (mr *MockUserMockRecorder) Delete(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockUser)(nil).Delete), arg0, arg1)
-}
-
-// Get mocks base method.
-func (m *MockUser) Get(arg0 context.Context, arg1 uuid.UUID) (user.User, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Get", arg0, arg1)
+	ret := m.ctrl.Call(m, "Register", arg0, arg1)
 	ret0, _ := ret[0].(user.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
-}
-
-// Get indicates an expected call of Get.
-func (mr *MockUserMockRecorder) Get(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockUser)(nil).Get), arg0, arg1)
-}
-
-// Register mocks base method.
-func (m *MockUser) Register(arg0 context.Context, arg1 user.RegisterUserArgs) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Register", arg0, arg1)
-	ret0, _ := ret[0].(error)
-	return ret0
 }
 
 // Register indicates an expected call of Register.

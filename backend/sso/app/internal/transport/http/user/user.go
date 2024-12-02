@@ -1,7 +1,6 @@
 package user
 
 import (
-	"github.com/gofrs/uuid"
 	domain "vss/sso/internal/domain/user"
 	"vss/sso/internal/service"
 	"vss/sso/internal/transport/http"
@@ -38,35 +37,10 @@ func (u *Handler) RegisterUser() fiber.Handler {
 	}
 }
 
-func (u *Handler) GetUser() fiber.Handler {
-	return func(c *fiber.Ctx) error {
-		userID := c.Query("userID")
-		userUUID, err := uuid.FromString(userID)
-		if err != nil {
-			logger.Log.Errorf("failed to validate params: %v", err)
-			return errors.ErrUserID.ToFiberError(c)
-		}
-
-		userEntity, err := u.userService.Get(c.Context(), userUUID)
-		if err != nil {
-			return errors.ErrUserNotFound.ToFiberError(c)
-		}
-
-		return c.Status(fiber.StatusOK).JSON(userEntity)
-	}
-}
-
 // TODO: implement
 func (u *Handler) UpdateUser() fiber.Handler {
 	return func(c *fiber.Ctx) error {
 
 		return c.Status(fiber.StatusInternalServerError).JSON(map[string]string{"error": "unimplemented handler"})
-	}
-}
-
-func (u *Handler) DeleteUser() fiber.Handler {
-	return func(c *fiber.Ctx) error {
-
-		return c.Status(fiber.StatusOK).JSON(nil)
 	}
 }

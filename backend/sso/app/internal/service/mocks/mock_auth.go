@@ -5,6 +5,9 @@
 package mocks
 
 import (
+	context "context"
+	reflect "reflect"
+
 	gomock "github.com/golang/mock/gomock"
 )
 
@@ -29,4 +32,40 @@ func NewMockAuth(ctrl *gomock.Controller) *MockAuth {
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockAuth) EXPECT() *MockAuthMockRecorder {
 	return m.recorder
+}
+
+// SignIn mocks base method.
+func (m *MockAuth) SignIn(arg0 context.Context) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "SignIn", arg0)
+}
+
+// SignIn indicates an expected call of SignIn.
+func (mr *MockAuthMockRecorder) SignIn(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SignIn", reflect.TypeOf((*MockAuth)(nil).SignIn), arg0)
+}
+
+// SignOut mocks base method.
+func (m *MockAuth) SignOut(arg0 context.Context) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "SignOut", arg0)
+}
+
+// SignOut indicates an expected call of SignOut.
+func (mr *MockAuthMockRecorder) SignOut(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SignOut", reflect.TypeOf((*MockAuth)(nil).SignOut), arg0)
+}
+
+// VerifyToken mocks base method.
+func (m *MockAuth) VerifyToken(arg0 context.Context) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "VerifyToken", arg0)
+}
+
+// VerifyToken indicates an expected call of VerifyToken.
+func (mr *MockAuthMockRecorder) VerifyToken(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "VerifyToken", reflect.TypeOf((*MockAuth)(nil).VerifyToken), arg0)
 }

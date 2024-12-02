@@ -9,7 +9,6 @@ import (
 	"vss/sso/internal/service"
 	"vss/sso/internal/storage/postgres/user"
 
-	"github.com/gofrs/uuid"
 	"github.com/pkg/errors"
 )
 
@@ -46,28 +45,10 @@ func (u *Service) Register(ctx context.Context, args domain.RegisterUserArgs) (d
 	return UserDTO(response), nil
 }
 
-func (u *Service) Get(ctx context.Context, userID uuid.UUID) (domain.User, error) {
-	response, err := u.repo.GetUser(ctx, userID.String())
-	if err != nil {
-		return domain.User{}, err
-	}
-
-	return UserDTO(response), nil
-}
-
 func (u *Service) Update(ctx context.Context, args domain.UpdateUserArgs) error {
 	err := u.repo.UpdateUser(ctx, storage.UpdateUserDTO(args))
 	if err != nil {
 		return errors.Wrapf(err, "could not update user with uuid %s", args.UserID)
-	}
-
-	return nil
-}
-
-func (u *Service) Delete(ctx context.Context, userID uuid.UUID) error {
-	err := u.repo.DeleteUser(ctx, userID.String())
-	if err != nil {
-		return errors.Wrapf(err, "could not delete user with uuid %s", userID.String())
 	}
 
 	return nil
