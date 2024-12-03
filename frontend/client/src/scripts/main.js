@@ -10,7 +10,7 @@ function login() {
     return
   }
 
-  window.location.href = "../pages/home.html";
+  window.location.href = "home.html";
 }
 
 function register() {
@@ -45,7 +45,7 @@ function searchVideos(event) {
       title: "video 2"
     },
     {
-      href: "login.html",
+      href: "video.html",
       imgSrc: "https://i.pinimg.com/originals/f9/56/ac/f956ac4e28a0f7c30c76dc7647983b8a.jpg",
       title: "video 3"
     }
