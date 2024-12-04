@@ -1,0 +1,7 @@
+version: '3'
+
+tasks:
+  protogen:
+    desc: "Generate proto"
+    cmds:
+      - protoc --proto_path=. *.proto --go_out=. --go-grpc_out=.
