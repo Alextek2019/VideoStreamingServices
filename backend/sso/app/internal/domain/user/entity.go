@@ -19,12 +19,12 @@ func (r *RegisterUserArgs) Validate() bool {
 }
 
 type User struct {
-	UserID uuid.UUID `json:"userID"`
+	UserID uuid.UUID `json:"user_id"`
 	Login  string    `json:"login"`
 }
 
 type UpdateUserArgs struct {
-	UserID   uuid.UUID `json:"userID"`
+	UserID   uuid.UUID `json:"user_id"`
 	Login    *string   `json:"login"`
 	Password *string   `json:"password"`
 }

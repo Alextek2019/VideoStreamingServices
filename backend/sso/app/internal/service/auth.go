@@ -1,9 +1,15 @@
 package service
 
-import "context"
+import (
+	"context"
+	domain "vss/sso/internal/domain/auth"
+)
 
-type Auth interface {
-	SignIn(context.Context)
-	SignOut(context.Context)
+type Provider interface {
+	SignIn(context.Context, domain.SignInRequest) (domain.SignInResponse, error)
+	SignOut(context.Context, domain.SignOutRequest) error
+}
+
+type Validator interface {
 	VerifyToken(context.Context)
 }

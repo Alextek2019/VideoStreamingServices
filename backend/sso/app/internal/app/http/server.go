@@ -6,15 +6,19 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/pkg/errors"
 	"vss/sso/internal/config"
+	"vss/sso/internal/service/auth"
 	userService "vss/sso/internal/service/user"
-	"vss/sso/internal/transport/http"
+	"vss/sso/internal/transport"
+	logger "vss/sso/pkg/logger/handlers/slogpretty"
 )
 
 type Server struct {
 	fiber *fiber.App
 
-	userHandler http.UserHandler
-	ctx         context.Context
+	userHandler         transport.UserHandler
+	authProviderHandler transport.AuthProvider
+
+	ctx context.Context
 }
 
 func NewServer(ctx context.Context) (*Server, error) {
@@ -29,16 +33,15 @@ func NewServer(ctx context.Context) (*Server, error) {
 			"could not create user service")
 	}
 
-	handlers := Services{
-		UserService: userSvc,
+	authProviderSvc, err := auth.NewProvider(ctx)
+	if err != nil {
+		return nil, errors.Wrapf(err, "app.http.NewServer could not create user service")
 	}
 
-	err = srv.MapHandlers(handlers)
-	if err != nil {
-		return nil, errors.Wrapf(err,
-			"app.http.NewServer %s",
-			"could not map handlers")
-	}
+	srv.MapHandlers(Services{
+		userService:         userSvc,
+		authProviderService: authProviderSvc,
+	})
 
 	return &srv, nil
 }
@@ -50,5 +53,8 @@ func (s *Server) MustRun() {
 }
 
 func (s *Server) Stop() {
-	_ = s.fiber.Shutdown()
+	err := s.fiber.Shutdown()
+	if err != nil {
+		logger.Log.Errorf("couldn`t gracefully stop fiber, error: %v", err)
+	}
 }

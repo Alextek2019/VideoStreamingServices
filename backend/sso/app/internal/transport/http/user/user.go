@@ -3,7 +3,7 @@ package user
 import (
 	domain "vss/sso/internal/domain/user"
 	"vss/sso/internal/service"
-	"vss/sso/internal/transport/http"
+	"vss/sso/internal/transport"
 	"vss/sso/pkg/errors"
 	logger "vss/sso/pkg/logger/handlers/slogpretty"
 	"vss/sso/pkg/reqvalidator"
@@ -15,7 +15,7 @@ type Handler struct {
 	userService service.User
 }
 
-func NewUserHandler(userService service.User) http.UserHandler {
+func NewUserHandler(userService service.User) transport.UserHandler {
 	return &Handler{userService: userService}
 }
 

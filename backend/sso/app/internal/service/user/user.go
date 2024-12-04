@@ -19,10 +19,7 @@ type Service struct {
 func New(ctx context.Context) (service.User, error) {
 	repo, err := user.New(ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err,
-			"service.user.New %s",
-			"could not create user repository",
-		)
+		return nil, errors.Wrapf(err, "could not create user repository")
 	}
 
 	return &Service{
@@ -37,9 +34,7 @@ func (u *Service) Register(ctx context.Context, args domain.RegisterUserArgs) (d
 
 	response, err := u.repo.CreateUser(ctx, storage.CreateUserDTO(args))
 	if err != nil {
-		return domain.User{}, errors.Wrapf(err,
-			"Service.User.RegisterUserArgs %s",
-			"could not create user in database")
+		return domain.User{}, errors.Wrapf(err, "could not create user in database")
 	}
 
 	return UserDTO(response), nil

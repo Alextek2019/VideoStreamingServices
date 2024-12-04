@@ -3,7 +3,8 @@ package http
 import (
 	"fmt"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"vss/sso/internal/transport/http/middleware"
+	"vss/sso/internal/transport/http/auth"
+
 	"vss/sso/internal/transport/http/user"
 
 	"vss/sso/internal/config"
@@ -15,10 +16,11 @@ import (
 )
 
 type Services struct {
-	UserService service.User
+	userService         service.User
+	authProviderService service.Provider
 }
 
-func (s *Server) MapHandlers(services Services) error {
+func (s *Server) MapHandlers(services Services) {
 	s.mapMetrics()
 
 	s.fiber.Use(cors.New(cors.Config{
@@ -27,17 +29,16 @@ func (s *Server) MapHandlers(services Services) error {
 		AllowCredentials: false,
 	}))
 
-	s.userHandler = user.NewUserHandler(services.UserService)
+	s.userHandler = user.NewUserHandler(services.userService)
+	s.authProviderHandler = auth.NewProviderHandler(services.authProviderService)
 
-	mw := middleware.NewMDWManager()
+	groupApi := s.fiber.Group("api")
+	groupV1 := groupApi.Group("v1")
+	groupUser := groupV1.Group("user")
+	groupAuth := groupV1.Group("auth")
 
-	apiGroup := s.fiber.Group("api")
-	v1 := apiGroup.Group("v1")
-	userGroup := v1.Group("user")
-
-	MapUserRoutes(userGroup, s.userHandler, mw)
-
-	return nil
+	MapUserRoutes(groupUser, s.userHandler)
+	MapAuthProviderRoutes(groupAuth, s.authProviderHandler)
 }
 
 func (s *Server) mapMetrics() {
