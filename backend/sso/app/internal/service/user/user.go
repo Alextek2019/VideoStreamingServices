@@ -19,7 +19,7 @@ type Service struct {
 func New(ctx context.Context) (service.User, error) {
 	repo, err := user.New(ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "could not create user repository")
+		return nil, errors.Wrapf(err, "could not create user postgres repository")
 	}
 
 	return &Service{

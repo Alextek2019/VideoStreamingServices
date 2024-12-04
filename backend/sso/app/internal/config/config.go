@@ -5,6 +5,7 @@ import (
 	"github.com/ilyakaznacheev/cleanenv"
 	"os"
 	pgconnector "vss/sso/pkg/connectors/pg_connector"
+	rdconnector "vss/sso/pkg/connectors/redis_connector"
 )
 
 var config *Config
@@ -16,6 +17,7 @@ type Config struct {
 	Service  Service              `yaml:"Service"`
 	Metrics  Metrics              `yaml:"Metrics"`
 	Postgres pgconnector.Postgres `yaml:"Postgres"`
+	Redis    rdconnector.Redis    `yaml:"Redis"`
 }
 
 type Service struct {

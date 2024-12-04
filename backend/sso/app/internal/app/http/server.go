@@ -28,14 +28,12 @@ func NewServer(ctx context.Context) (*Server, error) {
 
 	userSvc, err := userService.New(ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err,
-			"app.http.NewServer %s",
-			"could not create user service")
+		return nil, errors.Wrapf(err, "app.http.NewServer could not create user service")
 	}
 
 	authProviderSvc, err := auth.NewProvider(ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "app.http.NewServer could not create user service")
+		return nil, errors.Wrapf(err, "app.http.NewServer could not create auth service")
 	}
 
 	srv.MapHandlers(Services{

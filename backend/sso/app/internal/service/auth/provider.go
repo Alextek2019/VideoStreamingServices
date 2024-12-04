@@ -9,21 +9,29 @@ import (
 	domain "vss/sso/internal/domain/auth"
 	"vss/sso/internal/storage"
 	pgrepo "vss/sso/internal/storage/postgres/auth"
+	rdrepo "vss/sso/internal/storage/redis/auth"
 	domainErrors "vss/sso/pkg/errors"
 )
 
 type Provider struct {
-	repo storage.Auth
+	repo  storage.AuthRepo
+	cache storage.AuthCache
 }
 
 func NewProvider(ctx context.Context) (*Provider, error) {
 	repo, err := pgrepo.New(ctx)
 	if err != nil {
-		return nil, errors.Wrapf(err, "service.auth.NewProvider could not create user repository")
+		return nil, errors.Wrapf(err, "service.auth.NewProvider could not create auth postgres repository")
+	}
+
+	cache, err := rdrepo.New(ctx)
+	if err != nil {
+		return nil, errors.Wrapf(err, "service.auth.NewProvider could not create auth redis repository")
 	}
 
 	return &Provider{
-		repo: repo,
+		repo:  repo,
+		cache: cache,
 	}, nil
 }
 
@@ -37,6 +45,14 @@ func (h *Provider) SignIn(ctx context.Context, args domain.SignInRequest) (domai
 
 	userID, _ := uuid.FromString(user.ID)
 	accessToken, _ := uuid.DefaultGenerator.NewV4()
+
+	err = h.cache.UpdateSessionToken(ctx, storage.SessionToken{
+		UserID:      userID.String(),
+		AccessToken: accessToken.String()},
+	)
+	if err != nil {
+		return domain.SignInResponse{}, errors.Wrapf(err, "service.auth.SignIn could not update session token")
+	}
 
 	return domain.SignInResponse{
 		UserID:      userID,

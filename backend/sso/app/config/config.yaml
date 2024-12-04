@@ -19,3 +19,13 @@ Postgres:
   ConnMaxLifetime: 120s
   MaxIdleConns: 30
   ConnMaxIdleTime: 20s
+Redis:
+  Host: "localhost"
+  Port: "6379"
+  Password: "redis"
+  UseCertificates: false
+  InsecureSkipVerify: true
+  DB: 0
+  MinIdleConns: 15
+  PoolSize: 10
+  PoolTimeout: 30
